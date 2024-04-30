@@ -106,7 +106,7 @@ const Form = () => {
   const [postPicture, setPostPicture] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [newLink, setNewLink] = useState({ url: "", text: "" });
-  const [link, setLink] = useState([
+  const [links, setLinks] = useState([
     { url: 'https://github.com/', text: 'Github' },
     { url: 'https://www.front-endmentor.io/', text: 'Frontendmentor' },
     { url: 'https://www.linkedin.com/feed/', text: 'Linkedin' },
@@ -124,9 +124,13 @@ const Form = () => {
   const SaveLink = () => {
     if (newLink.url && newLink.text) {
       // Agrega nuevo enlace al arreglo de enlaces
-      setLink([...link, newLink]);
+      const updatedLinks = [...links, newLink];
+      setLinks(updatedLinks);
       setModalVisible(false);
       setNewLink({ url: "", text: "" });
+
+      // Muestra el nuevo enlace agregado en la consola del servidor
+      console.log("Nuevo enlace agregado:", newLink);
     } else {
       Alert.alert("Error", "Por favor ingresa una URL y un texto para el nuevo enlace.");
     }
@@ -141,7 +145,7 @@ const Form = () => {
     <>
       <ScrollView style={styles.container}>
         {/* Mostrar todos los enlaces */}
-        {link.map((link, index) => (
+        {links.map((link, index) => (
           <Text key={index} style={styles.text} onPress={() => ButtonPress(link.url)}>{link.text}</Text>
         ))}
         
@@ -189,7 +193,6 @@ const Form = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor:"red",
     flex: 1,
     position: "absolute",
     bottom:140,
@@ -197,7 +200,6 @@ const styles = StyleSheet.create({
     padding: 0,
     width: '85%',
     height: "30%",
-  
   },
   text: {
     backgroundColor: "#515454",
@@ -212,22 +214,17 @@ const styles = StyleSheet.create({
     textAlignVertical:"center",
     marginBottom: 10,
     left:15,
-    
-  
   },
   Addlinks: {
     position:"absolute",
-    // width:"70%",
-    // height:90,
     marginTop:0,
     bottom:110,
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row", // Cambiar a fila para mostrar los enlaces en línea
-    flexWrap: "wrap", // Permitir el ajuste de línea de los enlaces
+    flexDirection: "row",
+    flexWrap: "wrap",
     backgroundColor:"red"
   },
-
   modalContent: {
     position:"absolute",
     top:290,
@@ -242,7 +239,6 @@ const styles = StyleSheet.create({
     maxWidth: 300,
   },
   modalTitle: {
-    // backgroundColor:"red",
     width:"100%",
     fontSize: 20,
     marginBottom: 20,
@@ -260,10 +256,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: "100%",
     opacity:0.7
-    
   },
   buttonContainer: {
-    // flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 10,
   },
@@ -286,7 +280,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign:"center"
   },
- 
 });
 
 export default Form;
