@@ -1,158 +1,72 @@
-// import React, { useState } from 'react';
-// import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
-
-// const UserProfileForm = () => {
-//   const [profilePicture, setProfilePicture] = useState('');
-//   const [image, setPostimage] = useState('');
-//   const [profileName, setUsername] = useState('');
-//   const [postPicture, setPostPicture] = useState('');
-//   const handleSubmit = async () => {
-//     const formData = {
-//       profilePicture,
-//       image,
-//       profileName,
-//       postPicture,
-//     };
-
-//     try {
-//       const response = await fetch("http://192.168.198.137:3001/posts", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(formData),
-//       });
-
-//       if (response.ok) {
-//         console.log("Datos enviados correctamente");
-//         Alert.alert("Éxito", "Los datos se han enviado correctamente al servidor.");
-//       } else {
-//         console.error("Error al enviar los datos al servidor");
-//         Alert.alert("Error", "Ha ocurrido un error al enviar los datos al servidor.");
-//       }
-//     } catch (error) {
-//       console.error("Error en la solicitud:", error);
-//       Alert.alert("Error", "Ha ocurrido un error en la solicitud.");
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Foto de perfil"
-//         value={profilePicture}
-//         onChangeText={setProfilePicture}
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Foto de publicación"
-//         value={image}
-//         onChangeText={setPostPicture}
-//       />
-//       {/* <TextInput
-//         style={styles.input}
-//         placeholder="ggg"
-//         value={postPicture}
-//         onChangeText={setPostimage}
-//       /> */}
-//       <TextInput
-//         style={[styles.input, styles.lastInput]}
-//         placeholder="Nombre de usuario"
-//         value={profileName}
-//         onChangeText={setUsername}
-//       />
-
-//       <Button title="Publicar" onPress={handleSubmit} />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     bottom:80,
-//     position:  "absolute",
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#fff',
-//     padding: 0,
-//     right:100
-//   },
-//   input: {
-//     fontSize: 14,
-//     backgroundColor: 'white',
-//     textAlign: 'center',
-//     marginBottom: 10,
-//     borderWidth: 1,
-//     borderColor: 'black',
-//     borderRadius: 5,
-//     padding: 10,
-//     width: '100%',
-//   },
-//   lastInput: {
-//     marginBottom: 20,
-//   },
-// });
-
-// export default UserProfileForm;
-
 import React, { useState } from 'react';
 import { View, Button, Text, StyleSheet, Linking, Alert, TouchableOpacity, TextInput, Modal, ScrollView } from 'react-native';
 
-const Form = () => {
-  const [profilePicture, setProfilePicture] = useState('');
-  const [image, setPostimage] = useState('');
-  const [profileName, setUsername] = useState('');
-  const [postPicture, setPostPicture] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [newLink, setNewLink] = useState({ url: "", text: "" });
+const ButtonComponent = () => {
+  
+  const [newLink, setNewLink] = useState({ url: "", text: "", profilePicture: "", profileName: "" });
+  const [modalVisible, setModalVisible] = useState(false);  //Controla la visibilidad del modal para agregar nuevos enlaces.
   const [links, setLinks] = useState([
     { url: 'https://github.com/', text: 'Github' },
-    { url: 'https://www.front-endmentor.io/', text: 'Frontendmentor' },
+    { url: 'https://www.front-endmentor.io/', text: 'Frontend-mentor' },
     { url: 'https://www.linkedin.com/feed/', text: 'Linkedin' },
     { url: 'https://www.twitter.com', text: 'Twitter' }
   ]);
 
   const ButtonPress = (url) => {
-    Linking.openURL(url); // Abre la URL en el navegador por defecto del dispositivo
+    Linking.openURL(url);
   };
 
   const AddLink = () => {
     setModalVisible(true);
   };
 
-  const SaveLink = () => {
-    if (newLink.url && newLink.text) {
-      // Agrega nuevo enlace al arreglo de enlaces
-      const updatedLinks = [...links, newLink];
-      setLinks(updatedLinks);
-      setModalVisible(false);
-      setNewLink({ url: "", text: "" });
+  const SaveLink = async () => {
+    if (newLink.url && newLink.profilePicture && newLink.text && newLink.profileName) {
+      try {
+        const response = await fetch('http://192.168.104.137:3001/posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newLink),
+        });
 
-      // Muestra el nuevo enlace agregado en la consola del servidor
-      console.log("Nuevo enlace agregado:", newLink);
+        if (response.ok) {
+          const updatedLinks = [...links, newLink];
+          setLinks(updatedLinks);
+          setModalVisible(false);
+          setNewLink({ url: "", text: "", profilePicture: "", profileName: "" });
+
+          console.log('Nuevo enlace agregado:', newLink);
+          Alert.alert('Éxito', 'El enlace se ha guardado correctamente.');
+        } else {
+          console.error('Error al enviar los datos al servidor');
+          Alert.alert('Error', 'Ha ocurrido un error al enviar los datos al servidor.');
+        }
+      } catch (error) {
+        console.error('Error en la solicitud:', error);
+        Alert.alert('Error', 'Ha ocurrido un error en la solicitud.');
+      }
     } else {
-      Alert.alert("Error", "Por favor ingresa una URL y un texto para el nuevo enlace.");
+      Alert.alert("Error", "Por favor completa todos los campos.");
     }
   };
 
   const handleCancelLinkPress = () => {
     setModalVisible(false);
-    setNewLink({ url: "", text: "" });
+    setNewLink({ url: "", text: "", profilePicture: "", profileName: "" });
   };
 
   return (
     <>
       <ScrollView style={styles.container}>
-        {/* Mostrar todos los enlaces */}
         {links.map((link, index) => (
           <Text key={index} style={styles.text} onPress={() => ButtonPress(link.url)}>{link.text}</Text>
         ))}
-        
       </ScrollView>
       <View style={styles.Addlinks}>
-          <Button title="+ New Link" onPress={AddLink} />
-        </View>
+        <Button title="+ New Link" onPress={AddLink} />
+      </View>
       <Modal
         animationType="slide"
         transparent={true}
@@ -166,15 +80,15 @@ const Form = () => {
             <Text style={styles.modalTitle}>Agregar un nuevo Link</Text>
             <TextInput
               style={styles.input}
-              placeholder="URL"
+              placeholder="URL / Profile Picture URL"
               value={newLink.url}
-              onChangeText={(text) => setNewLink({ ...newLink, url: text })}
+              onChangeText={(text) => setNewLink({ ...newLink, url: text, profilePicture: text })}
             />
             <TextInput
               style={styles.input}
-              placeholder="Text"
+              placeholder="Text / Profile Name"
               value={newLink.text}
-              onChangeText={(text) => setNewLink({ ...newLink, text: text })}
+              onChangeText={(text) => setNewLink({ ...newLink, text: text, profileName: text })}
             />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.cancelarButton} onPress={handleCancelLinkPress}>
@@ -190,7 +104,6 @@ const Form = () => {
     </>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -282,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Form;
+export default ButtonComponent;

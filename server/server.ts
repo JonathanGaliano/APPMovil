@@ -24,14 +24,13 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/posts', (req, res) => {
-    const { profilePicture = "", image = "", profileName = "" } = req.body;
+    const { profilePicture = "", profileName = "" } = req.body;
 
-    console.log('saving new data: ', { profilePicture, image, profileName });
+    console.log('saving new data: ', { profilePicture, profileName });
 
     data.push({
         id: data.length.toString(),
         profilePicture,
-        image,
         profileName,
     });
 
@@ -41,3 +40,4 @@ app.post('/posts', (req, res) => {
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
 });
+
