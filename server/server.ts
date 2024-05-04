@@ -10,7 +10,7 @@ const data: Array<{}> = [
         id: "1",
         profilePicture:
             "https://social-links-profile-main-henna.vercel.app/_next/image?url=%2Fassets%2Fimages%2Favatar-jessica.jpeg&w=3840&q=75",
-        image: "Jessica Randall ",
+        name: "Jessica Randall ",
         profileName: "London, United Kingdom",
         Description: "Front-enddeveloper and avid reader"
     },

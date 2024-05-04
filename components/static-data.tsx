@@ -3,12 +3,13 @@ import React from "react";
 
     export interface StaticProps {
     profilePicture: string;
-    image: string;
+    name: string;
     profileName: string;
     Description: string;
     handlePress?: (props: StaticProps) => void;
     }
 
+    //componente statico donde se muestra
     export default function Static(props: StaticProps) {
     return (
         <TouchableOpacity
@@ -16,10 +17,7 @@ import React from "react";
         style={styles.container}
         >
 
-        <Text style={styles.image}>{props.image}</Text>
-        {/* <Text>{props.image}</Text>
-        <Text>{props.image}</Text>
-        <Text>{props.image}</Text> */}
+        <Text style={styles.name}>{props.name}</Text>
         <Image
             style={styles.profilePicture}
             source={{
@@ -74,7 +72,7 @@ import React from "react";
         
     },
 
-    image: {
+    name: {
         position: "absolute",
         color:"#E4E6DA",
         top:150,

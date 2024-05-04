@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
-
 interface Post {
     id: string;
     profilePicture: string;
-    image: string;
+    name: string;
     profileName: string;
     Description: string;
 }

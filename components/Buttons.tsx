@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Button, Text, StyleSheet, Linking, Alert, TouchableOpacity, TextInput, Modal, ScrollView } from 'react-native';
 
 const ButtonComponent = () => {
-  
+  // Variable newlink (Almacena información de un nuevo enlace)
   const [newLink, setNewLink] = useState({ url: "", text: "", profilePicture: "", profileName: "" });
-  const [modalVisible, setModalVisible] = useState(false);  //Controla la visibilidad del modal para agregar nuevos enlaces.
+  const [modalVisible, setModalVisible] = useState(false);  
   const [links, setLinks] = useState([
     { url: 'https://github.com/', text: 'Github' },
     { url: 'https://www.front-endmentor.io/', text: 'Frontend-mentor' },
@@ -12,14 +12,13 @@ const ButtonComponent = () => {
     { url: 'https://www.twitter.com', text: 'Twitter' }
   ]);
 
+  //funciones
   const ButtonPress = (url) => {
     Linking.openURL(url);
   };
-
   const AddLink = () => {
     setModalVisible(true);
   };
-
   const SaveLink = async () => {
     if (newLink.url && newLink.profilePicture && newLink.text && newLink.profileName) {
       try {
@@ -52,7 +51,7 @@ const ButtonComponent = () => {
     }
   };
 
-  const handleCancelLinkPress = () => {
+  const CancelLinkPress = () => {
     setModalVisible(false);
     setNewLink({ url: "", text: "", profilePicture: "", profileName: "" });
   };
@@ -91,7 +90,7 @@ const ButtonComponent = () => {
               onChangeText={(text) => setNewLink({ ...newLink, text: text, profileName: text })}
             />
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.cancelarButton} onPress={handleCancelLinkPress}>
+              <TouchableOpacity style={styles.cancelarButton} onPress={CancelLinkPress}>
                 <Text style={styles.cancelText}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.BotonG} onPress={SaveLink}>
@@ -104,6 +103,7 @@ const ButtonComponent = () => {
     </>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     width: "100%",
-    opacity:0.7
+    opacity:0.8
   },
   buttonContainer: {
     justifyContent: "space-between",
