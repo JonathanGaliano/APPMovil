@@ -37,7 +37,7 @@ import React from "react";
     const styles = StyleSheet.create({
     container: {
         position: "relative",
-        backgroundColor: "grey",
+        backgroundColor: "#3C3C44",
         borderRadius: 12,
         marginHorizontal: 0,
         marginVertical: 80,

@@ -5,12 +5,7 @@ const ButtonComponent = () => {
   // Variable newlink (Almacena información de un nuevo enlace)
   const [newLink, setNewLink] = useState({ url: "", text: "", profilePicture: "", profileName: "" });
   const [modalVisible, setModalVisible] = useState(false);  
-  const [links, setLinks] = useState([
-    { url: 'https://github.com/', text: 'Github' },
-    { url: 'https://www.front-endmentor.io/', text: 'Frontend-mentor' },
-    { url: 'https://www.linkedin.com/feed/', text: 'Linkedin' },
-    { url: 'https://www.twitter.com', text: 'Twitter' }
-  ]);
+  const [links, setLinks] = useState([]);
 
   //funciones
   const ButtonPress = (url) => {
@@ -64,7 +59,9 @@ const ButtonComponent = () => {
         ))}
       </ScrollView>
       <View style={styles.Addlinks}>
-        <Button title="+ New Link" onPress={AddLink} />
+      <TouchableOpacity onPress={AddLink} style={styles.button}>
+  <Text style={styles.buttonText}>+ New Link </Text>
+</TouchableOpacity>
       </View>
       <Modal
         animationType="slide"
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
   text: {
     backgroundColor: "#515454",
     borderWidth: 1,
-    borderColor: "#7C7E7E",
+    borderColor: "grey",
     borderRadius: 5,
     padding: 10,
     width: "90%",
@@ -131,16 +128,29 @@ const styles = StyleSheet.create({
   Addlinks: {
     position:"absolute",
     marginTop:0,
-    bottom:110,
+    bottom:100,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
     flexWrap: "wrap",
-    backgroundColor:"red"
   },
+  button: {
+    backgroundColor: '#9D63F0',
+    width: 280,
+    height:40,
+    borderRadius: 5,
+    alignItems:"center",
+  justifyContent: "center"
+},
+buttonText: {
+  fontSize: 16,
+  color: 'white',
+  
+},
+
   modalContent: {
     position:"absolute",
-    top:290,
+    top:200,
     left:32,
     justifyContent:"center",
     alignItems:"center",
